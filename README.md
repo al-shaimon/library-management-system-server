@@ -3,6 +3,10 @@
 A robust backend API for managing library operations including book management, member management,
 borrowing, and returns.
 
+## Live Link
+
+[Library Management System API](https://library-management-system-server-sable.vercel.app/)
+
 ## Technology Stack
 
 ### Core Technologies
@@ -62,7 +66,7 @@ borrowing, and returns.
 ```bash
 git clone https://github.com/al-shaimon/library-management-system-server.git
 
-cd library-management-system-server 
+cd library-management-system-server
 ```
 
 2. Install dependencies
@@ -93,6 +97,7 @@ npm run dev
 ## API Endpoints
 
 ### Books
+
 - POST /api/books - Create a new book
 - GET /api/books - Get all books
 - GET /api/books/:bookId - Get book by ID
@@ -100,6 +105,7 @@ npm run dev
 - DELETE /api/books/:bookId - Delete book
 
 ### Members
+
 - POST /api/members - Register new member
 - GET /api/members - Get all members
 - GET /api/members/:memberId - Get member by ID
@@ -107,15 +113,18 @@ npm run dev
 - DELETE /api/members/:memberId - Delete member
 
 ### Borrow
+
 - POST /api/borrow - Borrow a book
 - GET /api/borrow/overdue - Get overdue books
 
 ### Return
+
 - POST /api/return - Return a book
 
 ## Error Handling
 
 The API implements comprehensive error handling for:
+
 - Duplicate entries
 - Not found resources
 - Invalid operations

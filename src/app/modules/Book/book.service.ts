@@ -15,7 +15,7 @@ const createBook = async (data: any) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -25,7 +25,7 @@ const getAllBooks = async () => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -39,7 +39,7 @@ const getBookById = async (bookId: string) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -60,7 +60,7 @@ const updateBook = async (bookId: string, data: Partial<Book>) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -74,7 +74,7 @@ const deleteBook = async (bookId: string) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 

@@ -13,7 +13,7 @@ const createMember = async (data: any) => {
 
     return result;
   } catch (err: any) {
-    console.log(err.message);
+    throw new Error(err.message);
   }
 };
 
@@ -23,7 +23,7 @@ const getAllMembers = async () => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -37,7 +37,7 @@ const getMemberById = async (memberId: string) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -58,7 +58,7 @@ const updateMember = async (memberId: string, data: Partial<Member>) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 
@@ -72,7 +72,7 @@ const deleteMember = async (memberId: string) => {
 
     return result;
   } catch (err: any) {
-    console.log(err);
+    throw new Error(err.message);
   }
 };
 

@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.post('/', BookController.createBook);
 
-router.get('/', (req, res) => {
-  res.send({
-    message: 'Welcome to Book Module!',
-  });
-});
+router.get('/', BookController.getAllBooks);
+
+router.get('/:bookId', BookController.getBookById);
+
+router.put('/:bookId', BookController.updateBook);
+
+router.delete('/:bookId', BookController.deleteBook);
 
 export const BookRoutes = router;

@@ -2,12 +2,25 @@ import { Member } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 const createMember = async (data: any) => {
   try {
+    const existingEmail = await prisma.member.findFirst({
+      where: {
+        email: {
+          equals: data.email,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    if (existingEmail) {
+      throw new Error('Member with this email already exists');
+    }
+
     const result = await prisma.member.create({
       data: {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        membershipDate: new Date() || data.membershipDate,
+        membershipDate: data.membershipDate || new Date(),
       },
     });
 
@@ -54,6 +67,12 @@ const updateMember = async (memberId: string, data: Partial<Member>) => {
         memberId,
       },
       data,
+      select: {
+        memberId: true,
+        name: true,
+        email: true,
+        phone: true,
+      },
     });
 
     return result;

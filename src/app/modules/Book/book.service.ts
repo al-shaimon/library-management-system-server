@@ -3,6 +3,19 @@ import prisma from '../../../shared/prisma';
 
 const createBook = async (data: any) => {
   try {
+    const existingBook = await prisma.book.findFirst({
+      where: {
+        title: {
+          equals: data.title,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    if (existingBook) {
+      throw new Error('Book already exists');
+    }
+
     const result = await prisma.book.create({
       data: {
         title: data.title,
@@ -45,11 +58,29 @@ const getBookById = async (bookId: string) => {
 
 const updateBook = async (bookId: string, data: Partial<Book>) => {
   try {
-    await prisma.book.findUniqueOrThrow({
-      where: {
-        bookId,
-      },
-    });
+    if (data.title) {
+      const existingBook = await prisma.book.findFirst({
+        where: {
+          AND: [
+            {
+              title: {
+                equals: data.title,
+                mode: 'insensitive',
+              },
+            },
+            {
+              bookId: {
+                not: bookId,
+              },
+            },
+          ],
+        },
+      });
+
+      if (existingBook) {
+        throw new Error('Book with this title already exists');
+      }
+    }
 
     const result = await prisma.book.update({
       where: {

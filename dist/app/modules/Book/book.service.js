@@ -16,6 +16,7 @@ exports.BookService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const createBook = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Check if book with the same title already exists
         const existingBook = yield prisma_1.default.book.findFirst({
             where: {
                 title: {
@@ -27,6 +28,7 @@ const createBook = (data) => __awaiter(void 0, void 0, void 0, function* () {
         if (existingBook) {
             throw new Error('Book already exists');
         }
+        // Create new book
         const result = yield prisma_1.default.book.create({
             data: {
                 title: data.title,
@@ -69,6 +71,7 @@ const getBookById = (bookId) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const updateBook = (bookId, data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Check if book with the same title already exists
         if (data.title) {
             const existingBook = yield prisma_1.default.book.findFirst({
                 where: {

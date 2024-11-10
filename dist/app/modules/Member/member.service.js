@@ -16,6 +16,7 @@ exports.MemberService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const createMember = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Check if member with the same email already exists
         const existingEmail = yield prisma_1.default.member.findFirst({
             where: {
                 email: {
@@ -55,6 +56,7 @@ const getAllMembers = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const getMemberById = (memberId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Find member by ID
         const result = yield prisma_1.default.member.findUniqueOrThrow({
             where: {
                 memberId,
@@ -99,6 +101,7 @@ const deleteMember = (memberId) => __awaiter(void 0, void 0, void 0, function* (
                 returnDate: null,
             },
         });
+        // Check if member has any borrowed books
         if (borrowRecords) {
             throw new Error('Cannot delete member with active borrowed books. Please ensure all books are returned first.');
         }

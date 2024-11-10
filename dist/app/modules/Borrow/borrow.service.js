@@ -27,6 +27,7 @@ const borrowBook = (data) => __awaiter(void 0, void 0, void 0, function* () {
         if (book.availableCopies <= 0) {
             throw new Error('Book is not available');
         }
+        // Using Prisma transaction to ensure data consistency
         const result = yield prisma_1.default.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
             yield transactionClient.book.update({
                 where: {
@@ -64,6 +65,7 @@ const getOverdueBooks = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fourteenDaysAgo = new Date();
         fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+        // Fetch overdue books along with book and member details using Prisma's eager loading feature
         const overdueBooks = yield prisma_1.default.borrowRecord.findMany({
             where: {
                 borrowDate: {
@@ -76,6 +78,7 @@ const getOverdueBooks = () => __awaiter(void 0, void 0, void 0, function* () {
                 member: true,
             },
         });
+        // Calculate overdue days
         const formattedOverdueBooks = overdueBooks.map((record) => {
             const overdueDays = Math.floor((new Date().getTime() - new Date(record.borrowDate).getTime()) / (1000 * 60 * 60 * 24) - 14);
             return {

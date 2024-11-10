@@ -30,6 +30,7 @@ const returnBook = (data) => __awaiter(void 0, void 0, void 0, function* () {
         if (borrowRecord.returnDate) {
             throw new Error('Book has already been returned');
         }
+        // Using Prisma transaction to ensure data consistency
         const result = yield prisma_1.default.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
             yield transactionClient.book.update({
                 where: {

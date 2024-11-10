@@ -1,16 +1,32 @@
-import express from 'express';
+import express, { Router, RequestHandler } from 'express';
 import { MemberController } from './member.controller';
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.post('/', MemberController.createMember);
+const createMemberHandler: RequestHandler = (req, res, next) => {
+  MemberController.createMember(req, res).catch(next);
+};
 
-router.get('/', MemberController.getAllMembers);
+const getAllMembersHandler: RequestHandler = (req, res, next) => {
+  MemberController.getAllMembers(req, res).catch(next);
+};
 
-router.get('/:memberId', MemberController.getMemberById);
+const getMemberByIdHandler: RequestHandler = (req, res, next) => {
+  MemberController.getMemberById(req, res).catch(next);
+};
 
-router.put('/:memberId', MemberController.updateMember);
+const updateMemberHandler: RequestHandler = (req, res, next) => {
+  MemberController.updateMember(req, res).catch(next);
+};
 
-router.delete('/:memberId', MemberController.deleteMember);
+const deleteMemberHandler: RequestHandler = (req, res, next) => {
+  MemberController.deleteMember(req, res).catch(next);
+};
+
+router.post('/', createMemberHandler);
+router.get('/', getAllMembersHandler);
+router.get('/:memberId', getMemberByIdHandler);
+router.put('/:memberId', updateMemberHandler);
+router.delete('/:memberId', deleteMemberHandler);
 
 export const MemberRoutes = router;

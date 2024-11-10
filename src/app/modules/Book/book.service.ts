@@ -3,6 +3,7 @@ import prisma from '../../../shared/prisma';
 
 const createBook = async (data: any) => {
   try {
+    // Check if book with the same title already exists
     const existingBook = await prisma.book.findFirst({
       where: {
         title: {
@@ -16,6 +17,7 @@ const createBook = async (data: any) => {
       throw new Error('Book already exists');
     }
 
+    // Create new book
     const result = await prisma.book.create({
       data: {
         title: data.title,
@@ -35,6 +37,10 @@ const createBook = async (data: any) => {
 const getAllBooks = async () => {
   try {
     const result = await prisma.book.findMany({});
+
+    if (!result.length) {
+      throw new Error('No books available in the library');
+    }
 
     return result;
   } catch (err: any) {
@@ -58,6 +64,7 @@ const getBookById = async (bookId: string) => {
 
 const updateBook = async (bookId: string, data: Partial<Book>) => {
   try {
+    // Check if book with the same title already exists
     if (data.title) {
       const existingBook = await prisma.book.findFirst({
         where: {

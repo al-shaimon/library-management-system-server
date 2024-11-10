@@ -33,6 +33,14 @@ const getAllBooks = async (req: Request, res: Response) => {
   try {
     const result = await BookService.getAllBooks();
 
+    if (!result.length) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        success: false,
+        status: httpStatus.NOT_FOUND,
+        message: 'No books available in the library',
+      });
+    }
+
     res.status(httpStatus.OK).json({
       success: true,
       status: httpStatus.OK,

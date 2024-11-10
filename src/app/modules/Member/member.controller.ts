@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { MemberService } from './member.service';
 import httpStatus from 'http-status';
 

@@ -16,6 +16,7 @@ const borrowBook = async (data: any) => {
       throw new Error('Book is not available');
     }
 
+    // Using Prisma transaction to ensure data consistency
     const result = await prisma.$transaction(async (transactionClient) => {
       await transactionClient.book.update({
         where: {
@@ -57,6 +58,7 @@ const getOverdueBooks = async () => {
     const fourteenDaysAgo = new Date();
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
+    // Fetch overdue books along with book and member details using Prisma's eager loading feature
     const overdueBooks = await prisma.borrowRecord.findMany({
       where: {
         borrowDate: {
@@ -70,6 +72,7 @@ const getOverdueBooks = async () => {
       },
     });
 
+    // Calculate overdue days
     const formattedOverdueBooks = overdueBooks.map((record) => {
       const overdueDays = Math.floor(
         (new Date().getTime() - new Date(record.borrowDate).getTime()) / (1000 * 60 * 60 * 24) - 14

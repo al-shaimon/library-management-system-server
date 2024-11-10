@@ -19,6 +19,7 @@ const returnBook = async (data: any) => {
       throw new Error('Book has already been returned');
     }
 
+    // Using Prisma transaction to ensure data consistency
     const result = await prisma.$transaction(async (transactionClient) => {
       await transactionClient.book.update({
         where: {

@@ -6,14 +6,18 @@ const borrowBook = async (req: Request, res: Response) => {
   try {
     const result = await BorrowService.borrowBook(req.body);
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       success: true,
-      status: 200,
+      status: httpStatus.OK,
       message: 'Book borrowed successfully',
       data: result,
     });
   } catch (err: any) {
-    console.log(err.message);
+    res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      status: httpStatus.BAD_REQUEST,
+      message: err.message,
+    });
   }
 };
 

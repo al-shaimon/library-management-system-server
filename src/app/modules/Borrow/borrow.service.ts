@@ -52,6 +52,44 @@ const borrowBook = async (data: any) => {
   }
 };
 
+const getOverdueBooks = async () => {
+  try {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+    const overdueBooks = await prisma.borrowRecord.findMany({
+      where: {
+        borrowDate: {
+          lte: fourteenDaysAgo,
+        },
+        returnDate: null,
+      },
+      include: {
+        book: true,
+        member: true,
+      },
+    });
+
+    const formattedOverdueBooks = overdueBooks.map((record) => {
+      const overdueDays = Math.floor(
+        (new Date().getTime() - new Date(record.borrowDate).getTime()) / (1000 * 60 * 60 * 24) - 14
+      );
+
+      return {
+        borrowId: record.borrowId,
+        bookTitle: record.book.title,
+        borrowerName: record.member.name,
+        overdueDays: overdueDays,
+      };
+    });
+
+    return formattedOverdueBooks;
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+};
+
 export const BorrowService = {
   borrowBook,
+  getOverdueBooks,
 };

@@ -89,9 +89,9 @@ const updateBook = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       success: true,
-      status: 200,
+      status: httpStatus.OK,
       message: 'Book updated successfully',
       data: result,
     });
@@ -118,9 +118,9 @@ const deleteBook = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       success: true,
-      status: 200,
+      status: httpStatus.OK,
       message: 'Book successfully deleted',
     });
   } catch (err: any) {

@@ -5,14 +5,26 @@ const createMember = async (req: Request, res: Response) => {
   try {
     const result = await MemberService.createMember(req.body);
 
-    res.status(201).json({
+    if (!result) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        success: false,
+        status: httpStatus.BAD_REQUEST,
+        message: 'Failed to create member',
+      });
+    }
+
+    res.status(httpStatus.CREATED).json({
       success: true,
-      status: 201,
+      status: httpStatus.CREATED,
       message: 'Member created successfully',
       data: result,
     });
   } catch (err: any) {
-    console.log(err.message);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
   }
 };
 
@@ -20,14 +32,18 @@ const getAllMembers = async (req: Request, res: Response) => {
   try {
     const result = await MemberService.getAllMembers();
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       success: true,
-      status: 200,
+      status: httpStatus.OK,
       message: 'Members retrieved successfully',
       data: result,
     });
   } catch (err: any) {
-    console.log(err.message);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    });
   }
 };
 
